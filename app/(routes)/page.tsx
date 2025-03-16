@@ -17,7 +17,7 @@ export const revalidate = 0;
  * @returns {JSX.Element} The rendered HomePage component.
  */
 export default async function HomePage() {
-  const billboardId = '600f3fb8-efce-4e88-9ded-18917c4ca89e';
+  const billboardId = '113effae-0ca6-47f7-839f-0b0198b1170d';
   const billboard = await getBillboards(billboardId);
   const data = await getProducts({isFeatured: true});
 

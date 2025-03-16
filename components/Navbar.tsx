@@ -12,20 +12,21 @@ export const revalidate = 0;
 const Navbar = async () => {
   const categories = await getCategorys()
   return (
-    <div className='border-b'>
-        <Container>
-        <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">
+    <div className="border-b">
+      <Container>
+        <div className="relative flex h-16 items-center px-4 sm:px-6 lg:px-8">
           <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
-            <p className="font-bold text-xl">STORE</p>
+            <p className="text-xl font-bold text-gray-900 transition-colors duration-200 hover:text-gray-700">
+              OnlineLifestyle
+            </p>
           </Link>
 
-           <MainNav data={categories}/>
-           <NavbarActions/>
-          </div>
-         
-        </Container>
+          <MainNav data={categories} />
+          <NavbarActions />
+        </div>
+      </Container>
     </div>
-  )
+  );
 }
 
 export default Navbar

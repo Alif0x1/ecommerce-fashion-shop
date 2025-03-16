@@ -7,15 +7,22 @@ export interface Billboard {
 export interface Category {
     id: string,
     name: string,
-    billboard:Billboard,
+    billboard:Billboard ,
 }
+
+
 
 
 export interface Size {
-  id: string
-  name: string
-  value: string
+  id: string;
+  storeId: string;
+  name: string;
+  size: string;
+  createdAt: string;
+  updatedAt: string;
+
 }
+  
 
 export interface Color {
   id: string
@@ -31,7 +38,9 @@ export interface Product {
   isFeatured: boolean
   size: Size
    colour: Color
+  description: string
   images: Image[]
+  
 }
 
 

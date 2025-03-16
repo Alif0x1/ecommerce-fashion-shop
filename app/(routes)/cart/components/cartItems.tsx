@@ -1,29 +1,42 @@
 "use client"
 
 import { Product } from '@/types'
-import React from 'react'
+import React, { useState } from 'react'
 import useCart from '@/hooks/use-cart'
 import Currency from '@/components/ui/currency'
 import Image from 'next/image'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 interface cartProps {
   data: Product
 }
 
 const CartItems: React.FC<cartProps> = ({ data }) => {
-
   const cart = useCart()
-  
+  {}
+  const [selectedSize, setSelectedSize] = useState(data.selectedSize)
+  const [quantity, setQuantity] = useState(data.quantity)
+
   const onRemove = () => {
     cart.removeItem(data.id)
   }
 
+  const updateSize = (size: string) => {
+    setSelectedSize(size)
+    cart.updateItem(data.id, { selectedSize: size })
+  }
 
+  const updateQuantity = (newQuantity: number) => {
+    if (newQuantity >= 1) {
+      setQuantity(newQuantity)
+      cart.updateItem(data.id, { quantity: newQuantity })
+    }
+  }
 
   return (
-        <li className="group relative flex gap-x-6 border-b border-border py-6 transition-colors hover:bg-accent/50">
+    <li className="group relative flex gap-x-6 border-b border-border py-6 px-6 transition-colors hover:bg-accent/50">
       {/* Image Container */}
       <div className="relative aspect-square h-24 w-24 min-w-24 overflow-hidden rounded-lg border border-border bg-muted sm:h-40 sm:w-40 sm:min-w-40">
         <Image
@@ -55,7 +68,23 @@ const CartItems: React.FC<cartProps> = ({ data }) => {
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <span>{data.colour.name}</span>
             <span className="h-4 w-px bg-border" aria-hidden="true" />
-            <span>{data.size.name}</span>
+            <Select onValueChange={updateSize} value={selectedSize}>
+              <SelectTrigger className="w-20">
+                <SelectValue placeholder="Size" />
+              </SelectTrigger>
+              <SelectContent>
+                {JSON.parse(data.size.size).map((size: { value: string }) => (
+                  <SelectItem key={size.value} value={size.value}>{size.value}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Quantity Control */}
+          <div className="flex items-center gap-2">
+            <Button onClick={() => updateQuantity(quantity - 1)} variant="outline" size="sm">-</Button>
+            <span>{quantity}</span>
+            <Button onClick={() => updateQuantity(quantity + 1)} variant="outline" size="sm">+</Button>
           </div>
 
           {/* Price */}
@@ -63,7 +92,6 @@ const CartItems: React.FC<cartProps> = ({ data }) => {
             <Currency value={data.price} />
           </div>
         </div>
-        
       </div>
     </li>
   )
